@@ -1,0 +1,4 @@
+when we get request to this site, we will be rendering index.js file, i.e for base path (index.js reserved file name, for base path /)
+and if we have some file calles news, then it will render /news page
+here we can make use of folder too
+like news -> index.js => which renders news page

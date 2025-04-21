@@ -1,0 +1,1 @@
+{"c":["pages/news","webpack"],"r":["pages/news/[newsid]"],"m":["./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?absolutePagePath=C%3A%5CSkills%5CReact%20JS%5Cnext-js-pages-router-old%5C01-starting-project%5Cpages%5Cnews%5C%5Bnewsid%5D%5Cindex.js&page=%2Fnews%2F%5Bnewsid%5D!","./pages/news/[newsid]/index.js"]}
