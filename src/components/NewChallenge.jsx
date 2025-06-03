@@ -1,8 +1,10 @@
-import { useContext, useRef, useState } from 'react';
+import { useContext, useRef, useState } from "react";
 
-import { ChallengesContext } from '../store/challenges-context.jsx';
-import Modal from './Modal.jsx';
-import images from '../assets/images.js';
+import { ChallengesContext } from "../store/challenges-context.jsx";
+import Modal from "./Modal.jsx";
+import images from "../assets/images.js";
+
+import { motion, stagger, useAnimate } from "framer-motion";
 
 export default function NewChallenge({ onDone }) {
   const title = useRef();
@@ -11,6 +13,8 @@ export default function NewChallenge({ onDone }) {
 
   const [selectedImage, setSelectedImage] = useState(null);
   const { addChallenge } = useContext(ChallengesContext);
+
+  const [scope, animate] = useAnimate();
 
   function handleSelectImage(image) {
     setSelectedImage(image);
@@ -31,6 +35,11 @@ export default function NewChallenge({ onDone }) {
       !challenge.deadline.trim() ||
       !challenge.image
     ) {
+      animate(
+        "input, textarea",
+        { x: [-10, 0, 10, 0] },
+        { duration: 0.2, delay: stagger(0.1) }
+      );
       return;
     }
 
@@ -40,7 +49,7 @@ export default function NewChallenge({ onDone }) {
 
   return (
     <Modal title="New Challenge" onClose={onDone}>
-      <form id="new-challenge" onSubmit={handleSubmit}>
+      <form id="new-challenge" onSubmit={handleSubmit} ref={scope}>
         <p>
           <label htmlFor="title">Title</label>
           <input ref={title} type="text" name="title" id="title" />
@@ -56,17 +65,28 @@ export default function NewChallenge({ onDone }) {
           <input ref={deadline} type="date" name="deadline" id="deadline" />
         </p>
 
-        <ul id="new-challenge-images">
+        <motion.ul
+          id="new-challenge-images"
+          variants={{
+            visible: { transition: { staggerChildren: 0.1 } },
+          }}
+        >
           {images.map((image) => (
-            <li
+            <motion.li
+              variants={{
+                initial: { opacity: 0, scale: 0.5 },
+                visible: { opacity: 1, scale: [0.8, 1.3, 1], transition: {} },
+                exit: { opacity: 1, scale: 1 },
+              }}
+              transition={{ type: "spring" }}
               key={image.alt}
               onClick={() => handleSelectImage(image)}
-              className={selectedImage === image ? 'selected' : undefined}
+              className={selectedImage === image ? "selected" : undefined}
             >
               <img {...image} />
-            </li>
+            </motion.li>
           ))}
-        </ul>
+        </motion.ul>
 
         <p className="new-challenge-actions">
           <button type="button" onClick={onDone}>
