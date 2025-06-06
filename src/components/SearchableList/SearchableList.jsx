@@ -14,6 +14,7 @@ export default function SearchableList({ items, itemKeyFn, children }) {
     }
 
     lastChange.current = setTimeout(() => {
+      lastChange.current = null;
       setSearchTerm(event.target.value);
     }, 500);
   }
